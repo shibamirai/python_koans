@@ -1,7 +1,7 @@
 # Python Koans 日本語訳
 Python Koans 日本語訳は https://github.com/gregmalcolm/python_koans をもとに作成しました。
-***  
-Python Koans は対話形式のプログラミング演習で、テストをパスするようにコードを修正しながらすすめていきます。  
+
+Python Koans は、対話形式でテストをパスするようにコードを修正しながらすすめていきます。  
 ほとんどのテストは assert 関数を穴埋めするようになっています。例えば
 ```
 self.assertEqual(__, 1+2)
@@ -13,7 +13,6 @@ self.assertEqual(3, 1+2)
 いくつかのテストでは、assert 関数がすでに穴埋めされた状態になっているものがあります。その場合には、テストにパスできるようにコードを実装してください。  
 Python Koans は、Python だけでなく**テスト駆動開発**の雰囲気を味わうこともできます。
 ## 始め方
----
 コード一式をダウンロードし、コマンドラインまたはターミナルから下記コマンドを実行してください。
 ```
 python contemplate_koans.py
