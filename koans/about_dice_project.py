@@ -18,7 +18,7 @@ class DiceSet:
         # ヒント：乱数の生成には random.randint(min, max) が使えます
         # Needs implementing!
         # Tip: random.randint(min, max) can be used to generate random numbers
-        pass
+        self._values = [random.randint(1, 6) for i in range(n)]
 
 class AboutDiceProject(Koan):
     "サイコロプロジェクト"

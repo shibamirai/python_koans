@@ -90,7 +90,7 @@ class AboutMultipleInheritance(Koan):
     def test_normal_methods_are_available_in_the_object(self):
         "通常のメソッドはそのオブジェクトで使用できます"
         jeff = self.Spiderpig()
-        self.assertRegex(jeff.speak(), __)
+        self.assertRegex(jeff.speak(), "This looks like a job for Spiderpig!")
 
     def test_base_class_methods_are_also_available_in_the_object(self):
         "親クラスのメソッドも使用できます"
@@ -99,25 +99,25 @@ class AboutMultipleInheritance(Koan):
             jeff.set_name("Rover")
         except:
             self.fail("This should not happen")
-        self.assertEqual(__, jeff.can_climb_walls())
+        self.assertEqual(True, jeff.can_climb_walls())
 
     def test_base_class_methods_can_affect_instance_variables_in_the_object(self):
         "親クラスのメソッドは、そのオブジェクトのインスタンス変数にも影響を与えます"
         jeff = self.Spiderpig()
-        self.assertEqual(__, jeff.name)
+        self.assertEqual("Jeff", jeff.name)
 
         jeff.set_name("Rover")
-        self.assertEqual(__, jeff.name)
+        self.assertEqual("Rover", jeff.name)
 
     def test_left_hand_side_inheritance_tends_to_be_higher_priority(self):
         "継承順が左側の方が、より優先度が高くなります"
         jeff = self.Spiderpig()
-        self.assertEqual(__, jeff.color())
+        self.assertEqual('pink', jeff.color())
 
     def test_super_class_methods_are_higher_priority_than_super_super_classes(self):
         "親クラスのメソッドの方が、親の親のものより優先度が高くなります"
         jeff = self.Spiderpig()
-        self.assertEqual(__, jeff.legs())
+        self.assertEqual(8, jeff.legs())
 
     def test_we_can_inspect_the_method_resolution_order(self):
         "メソッドの解決順を見てみましょう"
@@ -127,10 +127,10 @@ class AboutMultipleInheritance(Koan):
         mro = type(self.Spiderpig()).mro()
         self.assertEqual('Spiderpig', mro[0].__name__)
         self.assertEqual('Pig', mro[1].__name__)
-        self.assertEqual(__, mro[2].__name__)
-        self.assertEqual(__, mro[3].__name__)
-        self.assertEqual(__, mro[4].__name__)
-        self.assertEqual(__, mro[5].__name__)
+        self.assertEqual('Spider', mro[2].__name__)
+        self.assertEqual('Animal', mro[3].__name__)
+        self.assertEqual('Nameable', mro[4].__name__)
+        self.assertEqual('object', mro[5].__name__)
 
     def test_confirm_the_mro_controls_the_calling_order(self):
         "MRO が呼び出し順序を制御していることを確認します"
@@ -141,7 +141,7 @@ class AboutMultipleInheritance(Koan):
         self.assertRegex(next.here(), 'Pig')
 
         next = super(AboutMultipleInheritance.Pig, jeff)
-        self.assertRegex(next.here(), __)
+        self.assertRegex(next.here(), 'Spider')
 
         # ちょっと待ってください!? 最後のクラス名は 'jeff' の親クラスではありますが
         # Pig の親クラスではありませんよね？

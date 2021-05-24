@@ -11,14 +11,14 @@ class AboutDeletingObjects(Koan):
         del lottery_nums[1]
         del lottery_nums[2:4]
 
-        self.assertEqual(___, lottery_nums)
+        self.assertEqual([4, 15, 42], lottery_nums)
 
     def test_del_can_remove_entire_lists(self):
         "del 文はリストごと消すことができます"
         lottery_nums = [4, 8, 15, 16, 23, 42]
         del lottery_nums
 
-        with self.assertRaises(___): win = lottery_nums
+        with self.assertRaises(UnboundLocalError): win = lottery_nums
 
     # ====================================================================
 
@@ -52,8 +52,8 @@ class AboutDeletingObjects(Koan):
         except AttributeError as e:
             err_msg2 = e.args[0]
 
-        self.assertRegex(err_msg1, __)
-        self.assertRegex(err_msg2, __)
+        self.assertRegex(err_msg1, "object has no attribute")
+        self.assertRegex(err_msg2, "object has no attribute")
 
     # ====================================================================
 
@@ -83,7 +83,7 @@ class AboutDeletingObjects(Koan):
         self.assertEqual('Senor Ninguno', cowboy.name)
 
         del cowboy.name
-        self.assertEqual(__, cowboy.name)
+        self.assertEqual("The man with no name", cowboy.name)
 
 
     # ====================================================================
@@ -111,7 +111,7 @@ class AboutDeletingObjects(Koan):
         self.assertEqual('Patrick', citizen.name)
 
         del citizen.name
-        self.assertEqual(__, citizen.name)
+        self.assertEqual('Number Six', citizen.name)
 
     # ====================================================================
 
@@ -126,6 +126,6 @@ class AboutDeletingObjects(Koan):
     def tests_del_can_be_overriden(self):
         "del 文はオーバーライドできます"
         sale = self.MoreOrganisedClosingSale()
-        self.assertEqual(__, sale.jellies())
+        self.assertEqual(5, sale.jellies())
         del sale.jellies
-        self.assertEqual(__, sale.last_deletion)
+        self.assertEqual('jellies', sale.last_deletion)

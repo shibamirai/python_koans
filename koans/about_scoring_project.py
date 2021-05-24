@@ -46,7 +46,26 @@ from runner.koan import *
 def score(dice):
     # この関数の処理を書いてください
     # You need to write this method
-    pass
+    if (len(dice) == 0):
+        return 0
+
+    count_of_num = [0, 0, 0, 0, 0, 0]
+    for num in dice:
+        count_of_num[num - 1] += 1
+
+    score = 0
+    for num in range(1, 7):
+        if num == 1:
+            score += count_of_num[num - 1] // 3 * 1000
+        else:
+            score += count_of_num[num - 1] // 3 * 100 * num
+
+        if num == 1:
+            score += count_of_num[num - 1] % 3 * 100
+        elif num == 5:
+            score += count_of_num[num - 1] % 3 * 50
+
+    return score
 
 class AboutScoringProject(Koan):
     "得点プロジェクト"

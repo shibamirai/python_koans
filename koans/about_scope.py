@@ -19,7 +19,7 @@ class AboutScope(Koan):
 
     def test_dog_is_not_available_in_the_current_scope(self):
         "このスコープでは Dog クラスは使用できません"
-        with self.assertRaises(___): fido = Dog()
+        with self.assertRaises(NameError): fido = Dog()
 
     def test_you_can_reference_nested_classes_using_the_scope_operator(self):
         "スコープ演算子を使って、入れ子のクラスを参照できます"
@@ -28,11 +28,11 @@ class AboutScope(Koan):
         # name 'jims' module name is taken from jims.py filename
 
         rover = joes.Dog()
-        self.assertEqual(__, fido.identify())
-        self.assertEqual(__, rover.identify())
+        self.assertEqual('jims dog', fido.identify())
+        self.assertEqual('joes dog', rover.identify())
 
-        self.assertEqual(__, type(fido) == type(rover))
-        self.assertEqual(__, jims.Dog == joes.Dog)
+        self.assertEqual(False, type(fido) == type(rover))
+        self.assertEqual(False, jims.Dog == joes.Dog)
 
     # ------------------------------------------------------------------
 
@@ -41,15 +41,15 @@ class AboutScope(Koan):
 
     def test_bare_bones_class_names_do_not_assume_the_current_scope(self):
         "単純クラス名は現在のスコープのものを表しているわけではありません"
-        self.assertEqual(__, AboutScope.str == str)
+        self.assertEqual(False, AboutScope.str == str)
 
     def test_nested_string_is_not_the_same_as_the_system_string(self):
         "このスコープの str クラスは、システムの str クラスとは異なります"
-        self.assertEqual(__, self.str == type("HI"))
+        self.assertEqual(False, self.str == type("HI"))
 
     def test_str_without_self_prefix_stays_in_the_global_scope(self):
         "'self' がついていない str クラスはグローバルスコープのままです"
-        self.assertEqual(__, str == type("HI"))
+        self.assertEqual(True, str == type("HI"))
 
     # ------------------------------------------------------------------
 
@@ -57,7 +57,7 @@ class AboutScope(Koan):
 
     def test_constants_are_defined_with_an_initial_uppercase_letter(self):
         "定数は大文字で定義されます"
-        self.assertAlmostEqual(_____, self.PI)
+        self.assertAlmostEqual(3.1416, self.PI)
         # 注意：Python の浮動小数点数は正確ではないので、
         # assertAlmostEqual で'ほぼ等しい'かを調べます
         # Note, floating point numbers in python are not precise.
@@ -66,7 +66,7 @@ class AboutScope(Koan):
     def test_constants_are_assumed_by_convention_only(self):
         "定数定義は単なる慣例です"
         self.PI = "rhubarb"
-        self.assertEqual(_____, self.PI)
+        self.assertEqual("rhubarb", self.PI)
         # Python には本当の定数は存在しません。
         # 開発者が慣例で書き換えないようにしているだけです。
         # There aren't any real constants in python. Its up to the developer
@@ -86,14 +86,14 @@ class AboutScope(Koan):
         global counter
         start = counter
         self.increment_using_local_counter(start)
-        self.assertEqual(__, counter == start + 1)
+        self.assertEqual(False, counter == start + 1)
 
     def test_incrementing_with_global_counter(self):
         "グローバル変数を使ったインクリメント"
         global counter
         start = counter
         self.increment_using_global_counter()
-        self.assertEqual(__, counter == start + 1)
+        self.assertEqual(True, counter == start + 1)
 
     # ------------------------------------------------------------------
 
@@ -113,11 +113,11 @@ class AboutScope(Koan):
 
     def test_getting_something_locally(self):
         "ローカル変数の取得"
-        self.assertEqual(__, self.local_access())
+        self.assertEqual('this is a local shop for local people', self.local_access())
 
     def test_getting_something_nonlocally(self):
         "ノンローカル変数の取得"
-        self.assertEqual(__, self.nonlocal_access())
+        self.assertEqual('eels', self.nonlocal_access())
 
     # ------------------------------------------------------------------
 
@@ -126,4 +126,4 @@ class AboutScope(Koan):
 
     def test_global_attributes_can_be_created_in_the_middle_of_a_class(self):
         "グローバル属性はクラスの途中で作ることもできます"
-        self.assertEqual(__, deadly_bingo[5])
+        self.assertEqual(42, deadly_bingo[5])

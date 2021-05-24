@@ -26,11 +26,11 @@ class AboutInheritance(Koan):
 
     def test_subclasses_have_the_parent_as_an_ancestor(self):
         "サブクラスは親を持ちます"
-        self.assertEqual(__, issubclass(self.Chihuahua, self.Dog))
+        self.assertEqual(True, issubclass(self.Chihuahua, self.Dog))
 
     def test_all_classes_in_python_3_ultimately_inherit_from_object_class(self):
         "Python 3 のすべてのクラスは object クラスを継承します"
-        self.assertEqual(__, issubclass(self.Chihuahua, object))
+        self.assertEqual(True, issubclass(self.Chihuahua, object))
 
         # 注意：Python 2 では異なり、組み込みクラスか object クラスを明示的に
         # 継承しなければなりません
@@ -40,23 +40,23 @@ class AboutInheritance(Koan):
     def test_instances_inherit_behavior_from_parent_class(self):
         "インスタンスは親クラスの振る舞いを継承します"
         chico = self.Chihuahua("Chico")
-        self.assertEqual(__, chico.name)
+        self.assertEqual("Chico", chico.name)
 
     def test_subclasses_add_new_behavior(self):
         "サブクラスには新しい振る舞いを追加できます"
         chico = self.Chihuahua("Chico")
-        self.assertEqual(__, chico.wag())
+        self.assertEqual("happy", chico.wag())
 
         fido = self.Dog("Fido")
-        with self.assertRaises(___): fido.wag()
+        with self.assertRaises(AttributeError): fido.wag()
 
     def test_subclasses_can_modify_existing_behavior(self):
         "サブクラスでは親クラスの振る舞いを書き換えることができます"
         chico = self.Chihuahua("Chico")
-        self.assertEqual(__, chico.bark())
+        self.assertEqual("yip", chico.bark())
 
         fido = self.Dog("Fido")
-        self.assertEqual(__, fido.bark())
+        self.assertEqual("WOOF", fido.bark())
 
     # ------------------------------------------------------------------
 
@@ -69,7 +69,7 @@ class AboutInheritance(Koan):
     def test_subclasses_can_invoke_parent_behavior_via_super(self):
         "super を使って、サブクラスから親クラスの振る舞いを呼び出せます"
         ralph = self.BullDog("Ralph")
-        self.assertEqual(__, ralph.bark())
+        self.assertEqual("WOOF, GRR", ralph.bark())
 
     # ------------------------------------------------------------------
 
@@ -80,7 +80,7 @@ class AboutInheritance(Koan):
     def test_super_works_across_methods(self):
         "super はメソッドを通じて機能します"
         george = self.GreatDane("George")
-        self.assertEqual(__, george.growl())
+        self.assertEqual("WOOF, GROWL", george.growl())
 
     # ---------------------------------------------------------
 
@@ -95,9 +95,9 @@ class AboutInheritance(Koan):
     def test_base_init_does_not_get_called_automatically(self):
         "親クラスの init は、自動的に呼ばれる訳ではありません"
         snoopy = self.Pug("Snoopy")
-        with self.assertRaises(___): name = snoopy.name
+        with self.assertRaises(AttributeError): name = snoopy.name
 
     def test_base_init_has_to_be_called_explicitly(self):
         "親クラスの init は明示的に呼び出す必要があります"
         boxer = self.Greyhound("Boxer")
-        self.assertEqual(__, boxer.name)
+        self.assertEqual("Boxer", boxer.name)

@@ -19,14 +19,14 @@ class AboutModules(Koan):
         from . import local_module  # local_module.py
 
         duck = local_module.Duck()
-        self.assertEqual(__, duck.name)
+        self.assertEqual("Daffy", duck.name)
 
     def test_importing_attributes_from_classes_using_from_keyword(self):
         "from 句を使ってクラスから属性をインポート"
         from .local_module import Duck
 
         duck = Duck()  # 今度はモジュール識別子は不要 no module qualifier needed this time
-        self.assertEqual(__, duck.name)
+        self.assertEqual("Daffy", duck.name)
 
     def test_we_can_import_multiple_items_at_once(self):
         "一度に複数の項目をインポートできます"
@@ -34,8 +34,8 @@ class AboutModules(Koan):
 
         jims_dog = jims.Dog()
         joes_dog = joes.Dog()
-        self.assertEqual(__, jims_dog.identify())
-        self.assertEqual(__, joes_dog.identify())
+        self.assertEqual("jims dog", jims_dog.identify())
+        self.assertEqual("joes dog", joes_dog.identify())
 
     def test_importing_all_module_attributes_at_once(self):
         "一度にすべてのモジュール属性をインポートする"
@@ -50,12 +50,12 @@ class AboutModules(Koan):
         goose = Goose()
         hamster = Hamster()
 
-        self.assertEqual(__, goose.name)
-        self.assertEqual(__, hamster.name)
+        self.assertEqual("Mr Stabby", goose.name)
+        self.assertEqual("Phil", hamster.name)
 
     def test_modules_hide_attributes_prefixed_by_underscores(self):
         "モジュールはアンダースコアから始まる属性を隠します"
-        with self.assertRaises(___):
+        with self.assertRaises(NameError):
             private_squirrel = _SecretSquirrel()
 
     def test_private_attributes_are_still_accessible_in_modules(self):
@@ -63,7 +63,7 @@ class AboutModules(Koan):
         from .local_module import Duck  # local_module.py
 
         duck = Duck()
-        self.assertEqual(__, duck._password)
+        self.assertEqual('password', duck._password)
         # モジュール階層での隠匿はクラス属性には影響しません
         # (クラス自身が隠されていなければですが)
         # module level attribute hiding doesn't affect class attributes
@@ -80,14 +80,14 @@ class AboutModules(Koan):
         # 'Goat' は __all__ リストに載っています
         # 'Goat' is on the __all__ list
         goat = Goat()
-        self.assertEqual(__, goat.name)
+        self.assertEqual("George", goat.name)
 
         # velociraptors はどうでしょう？
         # How about velociraptors?
         lizard = _Velociraptor()
-        self.assertEqual(__, lizard.name)
+        self.assertEqual("Cuddles", lizard.name)
 
         # SecretDuck? 聞いたことないですね！
         # SecretDuck? Never heard of her!
-        with self.assertRaises(___):
+        with self.assertRaises(NameError):
             duck = SecretDuck()

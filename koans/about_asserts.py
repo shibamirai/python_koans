@@ -26,7 +26,7 @@ class AboutAsserts(Koan):
         適切なメッセージがあれば、もっと解きやすいでしょう
         Enlightenment may be more easily achieved with appropriate messages.
         """
-        self.assertTrue(False, "ここは True であるべきです -- 修正してください")
+        self.assertTrue(True, "ここは True であるべきです -- 修正してください")
 
     def test_fill_in_values(self):
         "値の入力"
@@ -34,7 +34,7 @@ class AboutAsserts(Koan):
         値を入力してもらうこともあります
         Sometimes we will ask you to fill in the values
         """
-        self.assertEqual(__, 1 + 1)
+        self.assertEqual(2, 1 + 1)
 
     def test_assert_equality(self):
         "等しいかどうかの確認"
@@ -42,7 +42,7 @@ class AboutAsserts(Koan):
         解答が正しいかどうかは、正解と比較して確認します
         To understand reality, we must compare our expectations against reality.
         """
-        expected_value = __
+        expected_value = 2
         actual_value = 1 + 1
         self.assertTrue(expected_value == actual_value)
 
@@ -52,7 +52,7 @@ class AboutAsserts(Koan):
         assertEqual を使うと、より簡単に確認できます
         Some ways of asserting equality are better than others.
         """
-        expected_value = __
+        expected_value = 2
         actual_value = 1 + 1
 
         self.assertEqual(expected_value, actual_value)
@@ -66,7 +66,7 @@ class AboutAsserts(Koan):
 
         # これは AssertionError 例外を発生させます
         # This throws an AssertionError exception
-        assert False
+        assert True
 
     def test_that_sometimes_we_need_to_know_the_class_type(self):
         "クラスの確認"
@@ -93,7 +93,7 @@ class AboutAsserts(Koan):
         # 確かめてみましょう
         # See for yourself:
 
-        self.assertEqual(__, "navel".__class__) # これは str です, <type 'str'> ではありません
+        self.assertEqual(str, "navel".__class__) # これは str です, <type 'str'> ではありません
 
         # 画像で確かめたいときはこちら
         # Need an illustration? More reading can be found here:

@@ -26,7 +26,7 @@ class AboutWithStatements(Koan):
 
     def test_counting_lines(self):
         "行数のカウント"
-        self.assertEqual(__, self.count_lines("example_file.txt"))
+        self.assertEqual(4, self.count_lines("example_file.txt"))
 
     # ------------------------------------------------------------------
 
@@ -47,7 +47,7 @@ class AboutWithStatements(Koan):
 
     def test_finding_lines(self):
         "行の検索"
-        self.assertEqual(__, self.find_line("example_file.txt"))
+        self.assertEqual("test\n", self.find_line("example_file.txt"))
 
     ## ------------------------------------------------------------------
     ## 考えてみましょう：
@@ -105,7 +105,7 @@ class AboutWithStatements(Koan):
 
     def test_counting_lines2(self):
         "行数のカウント２"
-        self.assertEqual(__, self.count_lines2("example_file.txt"))
+        self.assertEqual(4, self.count_lines2("example_file.txt"))
 
     # ------------------------------------------------------------------
 
@@ -114,7 +114,11 @@ class AboutWithStatements(Koan):
         # 含む最初の行を返すようにこのメソッドを書き換えてください
         # Using the context manager self.FileContextManager, rewrite this
         # function to return the first line containing the letter 'e'.
-        return None
+        with self.FileContextManager(file_name) as file:
+            for line in file.readlines():
+                match = re.search('e', line)
+                if match:
+                    return line
 
     def test_finding_lines2(self):
         self.assertNotEqual(None, self.find_line2("example_file.txt"))
@@ -128,4 +132,4 @@ class AboutWithStatements(Koan):
 
     def test_open_already_has_its_own_built_in_context_manager(self):
         "open 関数には、それ自身のコンテキストマネージャがあります"
-        self.assertEqual(__, self.count_lines3("example_file.txt"))
+        self.assertEqual(4, self.count_lines3("example_file.txt"))

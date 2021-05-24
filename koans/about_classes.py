@@ -16,10 +16,11 @@ class AboutClasses(Koan):
         # NOTE: The .__name__ attribute will convert the class
         # into a string value.
         fido = self.Dog()
-        self.assertEqual(__, fido.__class__.__name__)
+        self.assertEqual('Dog', fido.__class__.__name__)
 
     def test_classes_have_docstrings(self):
-        self.assertRegex(self.Dog.__doc__, __)
+        "クラスのドキュメンテーション文字列を参照できます"
+        self.assertRegex(self.Dog.__doc__, "Dogs need regular walkies. Never, ever let them drive.")
 
     # ------------------------------------------------------------------
 
@@ -33,13 +34,13 @@ class AboutClasses(Koan):
     def test_init_method_is_the_constructor(self):
         "init メソッドはコンストラクタです"
         dog = self.Dog2()
-        self.assertEqual(__, dog._name)
+        self.assertEqual('Paul', dog._name)
 
     def test_private_attributes_are_not_really_private(self):
         "プライベート属性は、実はプライベートではありません"
         dog = self.Dog2()
         dog.set_name("Fido")
-        self.assertEqual(__, dog._name)
+        self.assertEqual("Fido", dog._name)
         # _name の接頭辞 _ はプライベート属性を意味していますが、
         # Python では本当の意味でプライベートなものはありません
         # The _ prefix in _name implies private ownership, but nothing is truly
@@ -50,13 +51,13 @@ class AboutClasses(Koan):
         fido = self.Dog2()
         fido.set_name("Fido")
 
-        self.assertEqual(__, getattr(fido, "_name"))
+        self.assertEqual("Fido", getattr(fido, "_name"))
         # getattr(), setattr() そして delattr() は、代入演算子を使わずに
         # 関数を使って属性にアクセスする方法です
         # getattr(), setattr() and delattr() are a way of accessing attributes
         # by method rather than through assignment operators
 
-        self.assertEqual(__, fido.__dict__["_name"])
+        self.assertEqual("Fido", fido.__dict__["_name"])
         # 確かに __dict__ オブジェクトは使えますが、これに頼らないでください！
         # いくつかのクラスでは、 __dict__ ではすべてが見えないように最適化されています。
         # Yes, this works here, but don't rely on the __dict__ object! Some
@@ -84,11 +85,11 @@ class AboutClasses(Koan):
 
         # メソッドを使ったアクセス
         # access as method
-        self.assertEqual(__, fido.get_name())
+        self.assertEqual("Fido", fido.get_name())
 
         # プロパティとしてアクセス
         # access as property
-        self.assertEqual(__, fido.name)
+        self.assertEqual("Fido", fido.name)
 
     # ------------------------------------------------------------------
 
@@ -109,7 +110,7 @@ class AboutClasses(Koan):
         fido = self.Dog4()
 
         fido.name = "Fido"
-        self.assertEqual(__, fido.name)
+        self.assertEqual("Fido", fido.name)
 
     # ------------------------------------------------------------------
 
@@ -124,11 +125,11 @@ class AboutClasses(Koan):
     def test_init_provides_initial_values_for_instance_variables(self):
         "__init__ はインスタンス変数の初期値を設定します"
         fido = self.Dog5("Fido")
-        self.assertEqual(__, fido.name)
+        self.assertEqual("Fido", fido.name)
 
     def test_args_must_match_init(self):
         "引数は __init__ に揃えます"
-        with self.assertRaises(___):
+        with self.assertRaises(TypeError):
             self.Dog5()
 
         # 考えてみましょう：
@@ -141,7 +142,7 @@ class AboutClasses(Koan):
         fido = self.Dog5("Fido")
         rover = self.Dog5("Rover")
 
-        self.assertEqual(__, rover.name == fido.name)
+        self.assertEqual(False, rover.name == fido.name)
 
     # ------------------------------------------------------------------
 
@@ -157,7 +158,7 @@ class AboutClasses(Koan):
             # これを実装してください！
             # Implement this!
             #
-            return __
+            return "Fido"
 
         def __repr__(self):
             return "<Dog named '" + self._name + "'>"
@@ -166,7 +167,7 @@ class AboutClasses(Koan):
         "メソッドの中では self はオブジェクト自身を参照しています"
         fido = self.Dog6("Fido")
 
-        self.assertEqual(__, fido.get_self())  # 文字列ではない！ Not a string!
+        self.assertEqual(fido, fido.get_self())  # 文字列ではない！ Not a string!
 
     def test_str_provides_a_string_version_of_the_object(self):
         "__str__ はオブジェクトの文字列表記を返します"
@@ -178,19 +179,19 @@ class AboutClasses(Koan):
         "__str__ は文字列の補間で使われます"
         fido = self.Dog6("Fido")
 
-        self.assertEqual(__, "My dog is " + str(fido))
+        self.assertEqual("My dog is Fido", "My dog is " + str(fido))
 
     def test_repr_provides_a_more_complete_string_version(self):
         "__repr__ はより正確な文字列を返します"
         fido = self.Dog6("Fido")
-        self.assertEqual(__, repr(fido))
+        self.assertEqual("<Dog named 'Fido'>", repr(fido))
 
     def test_all_objects_support_str_and_repr(self):
         "すべてのオブジェクトが str と repr をサポートしています"
         seq = [1, 2, 3]
 
-        self.assertEqual(__, str(seq))
-        self.assertEqual(__, repr(seq))
+        self.assertEqual('[1, 2, 3]', str(seq))
+        self.assertEqual('[1, 2, 3]', repr(seq))
 
-        self.assertEqual(__, str("STRING"))
-        self.assertEqual(__, repr("STRING"))
+        self.assertEqual("STRING", str("STRING"))
+        self.assertEqual("'STRING'", repr("STRING"))

@@ -17,13 +17,13 @@ class AboutAttributeAccess(Koan):
         "未定義の関数を呼ぶとエラーになります"
         typical = self.TypicalObject()
 
-        with self.assertRaises(___): typical.foobar()
+        with self.assertRaises(AttributeError): typical.foobar()
 
     def test_calling_getattribute_causes_an_attribute_error(self):
         "(未定義の属性に対して)__getattribute__ を呼ぶと AttributeError が発生します"
         typical = self.TypicalObject()
 
-        with self.assertRaises(___): typical.__getattribute__('foobar')
+        with self.assertRaises(AttributeError): typical.__getattribute__('foobar')
 
         # 考えてみましょう：
         # THINK ABOUT IT:
@@ -43,20 +43,20 @@ class AboutAttributeAccess(Koan):
         "__getattribute__ は、すべての属性参照で呼び出されます"
         catcher = self.CatchAllAttributeReads()
 
-        self.assertRegex(catcher.foobar, __)
+        self.assertRegex(catcher.foobar, 'Someone called')
 
     def test_intercepting_return_values_can_disrupt_the_call_chain(self):
         "戻り値に割り込むと、呼び出しチェーンが混乱します"
         catcher = self.CatchAllAttributeReads()
 
-        self.assertRegex(catcher.foobaz, __) # This is fine
+        self.assertRegex(catcher.foobaz, 'Someone called') # これは問題なし This is fine
 
         try:
             catcher.foobaz(1)
         except TypeError as ex:
             err_msg = ex.args[0]
 
-        self.assertRegex(err_msg, __)
+        self.assertRegex(err_msg, "'str' object is not callable")
 
         # foobaz は(__getattribute__()が返す)文字列を返します。ではその後の
         # '(1)' では何が起こるのでしょうか？
@@ -71,7 +71,7 @@ class AboutAttributeAccess(Koan):
         "__getattribuite__ の変更は、__getattr__ にも影響します"
         catcher = self.CatchAllAttributeReads()
 
-        self.assertRegex(getattr(catcher, 'any_attribute'), __)
+        self.assertRegex(getattr(catcher, 'any_attribute'), 'Someone called')
 
     # ------------------------------------------------------------------
 
@@ -86,14 +86,14 @@ class AboutAttributeAccess(Koan):
         "'foo'から始まる属性をキャッチします"
         catcher = self.WellBehavedFooCatcher()
 
-        self.assertEqual(__, catcher.foo_bar)
-        self.assertEqual(__, catcher.foo_baz)
+        self.assertEqual("Foo to you too", catcher.foo_bar)
+        self.assertEqual("Foo to you too", catcher.foo_baz)
 
     def test_non_foo_messages_are_treated_normally(self):
         "'foo'以外の属性は通常通りの扱いです"
         catcher = self.WellBehavedFooCatcher()
 
-        with self.assertRaises(___): catcher.normal_undefined_attribute
+        with self.assertRaises(AttributeError): catcher.normal_undefined_attribute
 
     # ------------------------------------------------------------------
 
@@ -134,7 +134,7 @@ class AboutAttributeAccess(Koan):
         catcher = self.RecursiveCatcher()
         catcher.my_method()
         global stack_depth
-        self.assertEqual(__, stack_depth)
+        self.assertEqual(11, stack_depth)
 
     # ------------------------------------------------------------------
 
@@ -156,7 +156,7 @@ class AboutAttributeAccess(Koan):
         catcher = self.MinimalCatcher()
         catcher.my_method()
 
-        self.assertEqual(__, catcher.no_of_getattr_calls)
+        self.assertEqual(0, catcher.no_of_getattr_calls)
 
     def test_getattr_only_catches_unknown_attributes(self):
         "__getattr__ は未定義の属性だけをキャッチします"
@@ -164,10 +164,10 @@ class AboutAttributeAccess(Koan):
         catcher.purple_flamingos()
         catcher.free_pie()
 
-        self.assertEqual(__,
+        self.assertEqual("DuffObject",
             type(catcher.give_me_duff_or_give_me_death()).__name__)
 
-        self.assertEqual(__, catcher.no_of_getattr_calls)
+        self.assertEqual(3, catcher.no_of_getattr_calls)
 
     # ------------------------------------------------------------------
 
@@ -189,14 +189,14 @@ class AboutAttributeAccess(Koan):
         fanboy.comic = 'The Laminator, issue #1'
         fanboy.pie = 'blueberry'
 
-        self.assertEqual(__, fanboy.a_pie)
+        self.assertEqual('blueberry', fanboy.a_pie)
 
         #
         # 注意：次の assert に合格するよう、prefix の値を変更してください
         # NOTE: Change the prefix to make this next assert pass
         #
 
-        prefix = '__'
+        prefix = 'my'
         self.assertEqual("The Laminator, issue #1", getattr(fanboy, prefix + '_comic'))
 
     # ------------------------------------------------------------------
@@ -219,7 +219,7 @@ class AboutAttributeAccess(Koan):
         setter = self.ScarySetter()
         setter.e = "mc hammer"
 
-        self.assertEqual(__, setter.altered_e)
+        self.assertEqual("mc hammer", setter.altered_e)
 
     def test_it_mangles_some_internal_attributes(self):
         "__setattr__ は、時々定義済みの属性を台無しにします"
@@ -228,10 +228,10 @@ class AboutAttributeAccess(Koan):
         try:
             coconuts = setter.num_of_coconuts
         except AttributeError:
-            self.assertEqual(__, setter.altered_num_of_coconuts)
+            self.assertEqual(9, setter.altered_num_of_coconuts)
 
     def test_in_this_case_private_attributes_remain_unmangled(self):
         "このケースでは、プライベート属性はそのままです"
         setter = self.ScarySetter()
 
-        self.assertEqual(__, setter._num_of_private_coconuts)
+        self.assertEqual(2, setter._num_of_private_coconuts)

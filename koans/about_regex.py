@@ -24,7 +24,7 @@ class AboutRegex(Koan):
         """
         string = "Hello, my name is Felix and these koans are based " + \
         "on Ben's book: Regular Expressions in 10 minutes."
-        m = re.search(__, string)
+        m = re.search('Felix', string)
         self.assertTrue(
             m and m.group(0) and
                 m.group(0) == 'Felix',
@@ -61,7 +61,7 @@ class AboutRegex(Koan):
 
         # 私の名前が何回出てくるか知りたい
         # I want to know how many times my name appears
-        self.assertEqual(m, __)
+        self.assertEqual(m, None)
 
     def test_matching_literal_text_not_case_sensitivity(self):
         "大文字小文字を区別しないマッチング"
@@ -81,8 +81,8 @@ class AboutRegex(Koan):
         string = "Hello, my name is Felix or felix and this koan " + \
             "is based on Ben's book: Regular Expressions in 10 minutes."
 
-        self.assertEqual(re.findall("felix", string), __)
-        self.assertEqual(re.findall("felix", string, re.IGNORECASE), __)
+        self.assertEqual(re.findall("felix", string), ["felix"])
+        self.assertEqual(re.findall("felix", string, re.IGNORECASE), ["Felix", "felix"])
 
     def test_matching_any_character(self):
         "任意の１文字とのマッチング"
@@ -102,7 +102,7 @@ class AboutRegex(Koan):
 
         # change_this_search_string に代入する値を変更してください
         # I want to find all uses of myArray
-        change_this_search_string = 'a..xlx'
+        change_this_search_string = 'a..xls'
         self.assertEquals(
             len(re.findall(change_this_search_string, string)),
             3)
@@ -134,7 +134,7 @@ class AboutRegex(Koan):
         # which matches in above test but in this case matches more than
         # you want
         # change_this_search_string に代入する値を変更してください
-        change_this_search_string = '[nsc]a[2-9].xls'
+        change_this_search_string = '[ns]a[1-9].xls'
         self.assertEquals(
             len(re.findall(change_this_search_string, string)),
             3)
@@ -166,7 +166,7 @@ class AboutRegex(Koan):
 
         # 'sam' が見つかるように change_this_search_string を変更してください。
         # I want to find the name 'sam'
-        change_this_search_string = '[^nc]am'
+        change_this_search_string = '[^nc]am.xls'
         self.assertEquals(
             re.findall(change_this_search_string, string),
             ['sam.xls'])

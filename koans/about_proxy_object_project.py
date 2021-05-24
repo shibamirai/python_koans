@@ -30,12 +30,32 @@ from runner.koan import *
 class Proxy:
     def __init__(self, target_object):
         # ここにコードを書いてください WRITE CODE HERE
+        self._messages = []
 
         # '_obj' の初期化は最後です。信じてください！
         #initialize '_obj' attribute last. Trust me on this!
         self._obj = target_object
 
     # ここにコードを書いてください WRITE CODE HERE
+    def __setattr__(self, name, value):
+        if (name[0] != '_'):
+            self._messages.append(name)
+            object.__setattr__(self._obj, name, value)
+        else:
+            object.__setattr__(self, name, value)
+
+    def __getattr__(self, name):
+        self._messages.append(name)
+        return object.__getattribute__(self._obj, name)
+
+    def messages(self):
+        return self._messages
+
+    def was_called(self, name):
+        return name in self._messages
+
+    def number_of_times_called(self, name):
+        return self._messages.count(name)
 
 # プロキシオブジェクトは下記の koan にパスしなければなりません。
 # The proxy object should pass the following Koan:

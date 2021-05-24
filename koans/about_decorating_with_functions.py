@@ -17,8 +17,8 @@ class AboutDecoratingWithFunctions(Koan):
 
     def test_decorators_can_modify_a_function(self):
         "デコレータは関数を改造することができます"
-        self.assertRegex(self.mediocre_song(), __)
-        self.assertEqual(__, self.mediocre_song.wow_factor)
+        self.assertRegex(self.mediocre_song(), "o/~ We all live in a broken submarine o/~")
+        self.assertEqual('COWBELL BABY!', self.mediocre_song.wow_factor)
 
     # ------------------------------------------------------------------
 
@@ -33,4 +33,4 @@ class AboutDecoratingWithFunctions(Koan):
 
     def test_decorators_can_change_a_function_output(self):
         "デコレータは関数の出力も変更できます"
-        self.assertEqual(__, self.render_tag('llama'))
+        self.assertEqual('<llama/>', self.render_tag('llama'))
